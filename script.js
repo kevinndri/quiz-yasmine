@@ -45,20 +45,24 @@ const quizCard = document.getElementById("quiz-card");
 const finalCard = document.getElementById("final-card");
 const bgMusic = document.getElementById("bg-music");
 
-// Lancement automatique de la musique
+// Lancement de la musique
 function playAudio() {
-  if (bgMusic) {
+  if (bgMusic && bgMusic.paused) {
     bgMusic.play().then(() => {
+      // Une fois lancée, on retire les écouteurs pour économiser les ressources
       document.removeEventListener("click", playAudio);
       document.removeEventListener("touchstart", playAudio);
-    }).catch(() => {
-      // Bloqué par le navigateur mobile : se débloquera au tout premier clic/toucher
+    }).catch((err) => {
+      console.log("Lecture automatique bloquée : attente d'une interaction utilisateur.");
     });
   }
 }
 
-// Tentative au chargement puis écouteurs de secours pour smartphone
+// Tentative au chargement puis écouteurs globaux
 window.addEventListener("DOMContentLoaded", () => {
+  if (bgMusic) {
+    bgMusic.volume = 0.5; // Ajuste le volume à 50%
+  }
   playAudio();
   document.addEventListener("click", playAudio);
   document.addEventListener("touchstart", playAudio);
@@ -82,7 +86,10 @@ function loadQuestion() {
     const button = document.createElement("button");
     button.textContent = option;
     button.classList.add("option-btn");
-    button.onclick = () => checkAnswer(index);
+    button.onclick = () => {
+      playAudio(); // Déclencheur de secours sur le clic du bouton
+      checkAnswer(index);
+    };
     optionsContainer.appendChild(button);
   });
 }
