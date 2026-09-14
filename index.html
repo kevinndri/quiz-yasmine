@@ -32,7 +32,7 @@
         
         <img id="reward-image" src="" alt="Photo Souvenir" class="hidden">
         
-        <video id="reward-video" controls width="100%" class="hidden">
+        <video id="reward-video" controls width="100%" class="hidden" playsinline>
           <source id="reward-video-source" src="" type="video/mp4">
         </video>
 
@@ -50,20 +50,17 @@
       </p>
 
       <div class="video-container">
-        <video controls width="100%">
+        <video controls width="100%" playsinline>
           <source src="image/video_finale.mp4" type="video/mp4">
         </video>
       </div>
     </div>
   </div>
 
-  <!-- Lecteur de musique flottant en bas de l'écran -->
+  <!-- Lecteur de musique flottant -->
   <div class="music-player">
     <span class="music-icon">🎵</span>
-    <audio controls loop id="bg-music">
-      <source src="image/musique.mp3" type="audio/mpeg">
-      Ton navigateur ne supporte pas l'élément audio.
-    </audio>
+    <audio id="bg-music" src="image/musique.mp3" controls loop playsinline preload="auto"></audio>
   </div>
 
   <script src="script.js"></script>
