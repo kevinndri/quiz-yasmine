@@ -1,3 +1,4 @@
+// TES QUESTIONS, CHOIX ET IMAGES/VIDÉOS
 const questions = [
   {
     question: "Où s'est passé notre tout premier rendez-vous ?",
@@ -33,33 +34,42 @@ const questions = [
 
 let currentQuestionIndex = 0;
 
-const startCard = document.getElementById("start-card");
-const quizCard = document.getElementById("quiz-card");
-const finalCard = document.getElementById("final-card");
+// Récupération des éléments du HTML
 const questionText = document.getElementById("question-text");
 const optionsContainer = document.getElementById("options-container");
 const rewardContainer = document.getElementById("reward-container");
 const rewardImage = document.getElementById("reward-image");
 const rewardVideo = document.getElementById("reward-video");
 const rewardVideoSource = document.getElementById("reward-video-source");
+const quizCard = document.getElementById("quiz-card");
+const finalCard = document.getElementById("final-card");
 const bgMusic = document.getElementById("bg-music");
 
-// Fonction appelée quand elle clique sur "Commencer le Quiz"
-function startQuiz() {
-  // 1. Lancer la musique immédiatement sur le clic
-  if (bgMusic) {
-    bgMusic.play().catch(e => console.log("Erreur lecture audio :", e));
+// Lancement de la musique
+function playAudio() {
+  if (bgMusic && bgMusic.paused) {
+    bgMusic.play().then(() => {
+      // Une fois lancée, on retire les écouteurs pour économiser les ressources
+      document.removeEventListener("click", playAudio);
+      document.removeEventListener("touchstart", playAudio);
+    }).catch((err) => {
+      console.log("Lecture automatique bloquée : attente d'une interaction utilisateur.");
+    });
   }
-  
-  // 2. Basculer l'affichage
-  startCard.classList.add("hidden");
-  quizCard.classList.remove("hidden");
-  
-  // 3. Charger la première question
-  loadQuestion();
 }
 
+// Tentative au chargement puis écouteurs globaux
+window.addEventListener("DOMContentLoaded", () => {
+  if (bgMusic) {
+    bgMusic.volume = 0.5; // Ajuste le volume à 50%
+  }
+  playAudio();
+  document.addEventListener("click", playAudio);
+  document.addEventListener("touchstart", playAudio);
+});
+
 function loadQuestion() {
+  // Masquer les médias et réinitialiser la vidéo
   rewardContainer.classList.add("hidden");
   if (rewardImage) rewardImage.classList.add("hidden");
   if (rewardVideo) {
@@ -76,7 +86,10 @@ function loadQuestion() {
     const button = document.createElement("button");
     button.textContent = option;
     button.classList.add("option-btn");
-    button.onclick = () => checkAnswer(index);
+    button.onclick = () => {
+      playAudio(); // Déclencheur de secours sur le clic du bouton
+      checkAnswer(index);
+    };
     optionsContainer.appendChild(button);
   });
 }
@@ -87,6 +100,7 @@ function checkAnswer(selectedIndex) {
   if (selectedIndex === currentQ.answer) {
     optionsContainer.innerHTML = "";
 
+    // Détection automatique : Vidéo (.mp4) ou Image (.jpg/.png)
     if (currentQ.image.endsWith(".mp4")) {
       if (rewardVideoSource && rewardVideo) {
         rewardVideoSource.src = currentQ.image;
@@ -120,9 +134,13 @@ function showFinalScreen() {
   quizCard.classList.add("hidden");
   finalCard.classList.remove("hidden");
 
+  // Lancement de la pluie de confettis
   confetti({
     particleCount: 150,
     spread: 70,
     origin: { y: 0.6 }
   });
 }
+
+// Lancer le jeu au chargement de la page
+loadQuestion();
