@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Joyeux Anniversaire mvie ! ❤️</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+
+  <!-- Cœurs flottants en arrière-plan -->
+  <div class="hearts-bg">
+    <div class="heart">❤️</div>
+    <div class="heart">💖</div>
+    <div class="heart">💕</div>
+    <div class="heart">💗</div>
+    <div class="heart">❤️</div>
+  </div>
+
+  <div class="container">
+    <!-- Zone du Quiz -->
+    <div id="quiz-card" class="card">
+      <div class="badge">Quiz annivaissaire✨</div>
+      <h2 id="question-text">Chargement de la question...</h2>
+      
+      <div id="options-container" class="options-grid"></div>
+
+      <!-- Zone Récompense (Photo/Vidéo) -->
+      <div id="reward-container" class="reward-box hidden">
+        <p class="success-message">Bravo mvie ! ❤️ Voici notre souvenir :</p>
+        
+        <img id="reward-image" src="" alt="Photo Souvenir" class="hidden">
+        
+        <video id="reward-video" controls width="100%" class="hidden">
+          <source id="reward-video-source" src="" type="video/mp4">
+        </video>
+
+        <button id="next-btn" onclick="nextQuestion()">allons avec Ça ➔</button>
+      </div>
+    </div>
+
+    <!-- Zone Finale -->
+    <div id="final-card" class="card hidden">
+      <h1>🎉 Joyeux Anniversaire mvie ! 🎉</h1>
+      <p class="birthday-message">
+        Tu as réussi le quiz ! Merci pour tous ces magnifiques moments passés ensemble. 
+        Je te souhaite une journée magique remplie de bonheur et d'amour. 
+        À plus tard mon amoureuse, on se capte, je t'aime à la folie tu peux pas imaginer maman de Layanna. ❤️
+      </p>
+
+      <div class="video-container">
+        <video controls width="100%">
+          <source src="image/video_finale.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lecteur de musique flottant en bas de l'écran -->
+  <div class="music-player">
+    <span class="music-icon">🎵</span>
+    <audio controls loop id="bg-music">
+      <source src="image/musique.mp3" type="audio/mpeg">
+      Ton navigateur ne supporte pas l'élément audio.
+    </audio>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
